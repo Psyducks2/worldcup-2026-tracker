@@ -14,11 +14,42 @@ import type {
 } from "@/types/worldcup"
 
 const BASE_URL = "https://worldcup26.ir"
+const FETCH_TIMEOUT_MS = 15_000
+const MAX_RETRIES = 2
+
+async function fetchApi(path: string, revalidate: number) {
+  let lastError: unknown
+
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
+
+    try {
+      const res = await fetch(`${BASE_URL}${path}`, {
+        next: { revalidate },
+        signal: controller.signal,
+      })
+
+      if (!res.ok) {
+        throw new Error(`Failed to fetch ${path}: HTTP ${res.status}`)
+      }
+
+      return res
+    } catch (error) {
+      lastError = error
+      if (attempt < MAX_RETRIES) {
+        await new Promise((resolve) => setTimeout(resolve, 1000 * (attempt + 1)))
+      }
+    } finally {
+      clearTimeout(timeout)
+    }
+  }
+
+  throw lastError
+}
 
 export async function fetchTeams(): Promise<Record<string, ApiTeam>> {
-  const res = await fetch(`${BASE_URL}/get/teams`, {
-    next: { revalidate: 300 },
-  })
+  const res = await fetchApi("/get/teams", 300)
   if (!res.ok) throw new Error("Failed to fetch teams")
   const data: ApiTeamsResponse = await res.json()
   const map: Record<string, ApiTeam> = {}
@@ -29,18 +60,14 @@ export async function fetchTeams(): Promise<Record<string, ApiTeam>> {
 }
 
 export async function fetchGroups(): Promise<ApiGroup[]> {
-  const res = await fetch(`${BASE_URL}/get/groups`, {
-    next: { revalidate: 60 },
-  })
+  const res = await fetchApi("/get/groups", 60)
   if (!res.ok) throw new Error("Failed to fetch groups")
   const data: ApiGroupsResponse = await res.json()
   return data.groups
 }
 
 export async function fetchGames(): Promise<ApiGame[]> {
-  const res = await fetch(`${BASE_URL}/get/games`, {
-    next: { revalidate: 30 },
-  })
+  const res = await fetchApi("/get/games", 30)
   if (!res.ok) throw new Error("Failed to fetch games")
   const data: ApiGamesResponse = await res.json()
   return data.games

@@ -8,24 +8,35 @@ import {
 import { buildBracket } from "@/lib/bracket"
 import { getQualifications } from "@/lib/qualification"
 import { HomeContent } from "@/components/home/home-content"
+import type { Group, Match } from "@/types/worldcup"
 
-export const revalidate = 60
+export const dynamic = "force-dynamic"
 
-async function getTournamentData() {
-  const [teamsMap, apiGroups, apiGames] = await Promise.all([
-    fetchTeams(),
-    fetchGroups(),
-    fetchGames(),
-  ])
+async function getTournamentData(): Promise<{
+  groups: Group[]
+  matches: Match[]
+  dataError: boolean
+}> {
+  try {
+    const [teamsMap, apiGroups, apiGames] = await Promise.all([
+      fetchTeams(),
+      fetchGroups(),
+      fetchGames(),
+    ])
 
-  const groups = mapGroups(apiGroups, teamsMap)
-  const matches = mapGames(apiGames, teamsMap)
-
-  return { groups, matches }
+    return {
+      groups: mapGroups(apiGroups, teamsMap),
+      matches: mapGames(apiGames, teamsMap),
+      dataError: false,
+    }
+  } catch (error) {
+    console.error("Failed to fetch tournament data:", error)
+    return { groups: [], matches: [], dataError: true }
+  }
 }
 
 export default async function Home() {
-  const { groups, matches } = await getTournamentData()
+  const { groups, matches, dataError } = await getTournamentData()
 
   const qualifications = getQualifications(groups)
   const bracket = buildBracket(matches, groups)
@@ -36,6 +47,7 @@ export default async function Home() {
       matches={matches}
       qualifications={qualifications}
       bracket={bracket}
+      dataError={dataError}
     />
   )
 }

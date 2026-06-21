@@ -9,13 +9,14 @@ import { MatchCard } from "@/components/match-card"
 import { StatsCards } from "@/components/stats-cards"
 import { useLocale } from "@/components/providers/locale-provider"
 import { getLiveMatches, getUpcomingMatches } from "@/lib/api"
-import { ExternalLink, Radio, Trophy } from "lucide-react"
+import { ExternalLink, Radio, Trophy, WifiOff } from "lucide-react"
 
 interface HomeContentProps {
   groups: Group[]
   matches: Match[]
   qualifications: TeamQualification[]
   bracket: Record<MatchStage, BracketNode[]>
+  dataError?: boolean
 }
 
 export function HomeContent({
@@ -23,6 +24,7 @@ export function HomeContent({
   matches,
   qualifications,
   bracket,
+  dataError = false,
 }: HomeContentProps) {
   const { t } = useLocale()
 
@@ -110,6 +112,21 @@ export function HomeContent({
       <SiteHeader />
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {dataError && (
+          <div
+            role="alert"
+            className="mb-6 flex gap-3 rounded-xl border border-wc-live/30 bg-wc-live/10 px-4 py-3"
+          >
+            <WifiOff
+              className="h-5 w-5 shrink-0 text-wc-live mt-0.5"
+              aria-hidden
+            />
+            <div className="text-sm">
+              <p className="font-medium text-foreground">{t("error.title")}</p>
+              <p className="mt-1 text-muted-foreground">{t("error.description")}</p>
+            </div>
+          </div>
+        )}
         <SectionTabs
           overview={overview}
           standings={standings}

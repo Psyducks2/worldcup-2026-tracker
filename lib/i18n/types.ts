@@ -41,6 +41,10 @@ export interface Dictionary {
     groupStageDesc: string
     groupMatches: string
   }
+  error: {
+    title: string
+    description: string
+  }
   match: {
     live: string
     finished: string

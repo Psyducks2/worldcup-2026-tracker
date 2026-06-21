@@ -36,6 +36,11 @@ export const en: Dictionary = {
     groupStageDesc: "Current standings with Round of 32 projection",
     groupMatches: "Group Stage Matches",
   },
+  error: {
+    title: "Could not load data",
+    description:
+      "The worldcup26.ir API is unavailable right now. Please try again shortly.",
+  },
   match: {
     live: "LIVE",
     finished: "Full Time",

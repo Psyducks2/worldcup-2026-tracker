@@ -36,6 +36,11 @@ export const ptBR: Dictionary = {
     groupStageDesc: "Classificação atual com projeção de vagas nos 32 avos",
     groupMatches: "Jogos da Fase de Grupos",
   },
+  error: {
+    title: "Não foi possível carregar os dados",
+    description:
+      "A API worldcup26.ir está indisponível no momento. Tente novamente em alguns instantes.",
+  },
   match: {
     live: "AO VIVO",
     finished: "Encerrado",
