@@ -80,6 +80,7 @@ export function mapTeam(apiTeam: ApiTeam): Team {
     code: apiTeam.fifa_code,
     flag: apiTeam.flag,
     group: apiTeam.groups,
+    iso2: apiTeam.iso2?.toLowerCase(),
   }
 }
 
@@ -181,7 +182,44 @@ export function mapGames(
       matchday: game.matchday,
       homeTeamLabel: game.home_team_label,
       awayTeamLabel: game.away_team_label,
+      stadiumId: game.stadium_id,
     }
+  })
+}
+
+export function getMatchesByDate(matches: Match[]): Map<string, Match[]> {
+  const map = new Map<string, Match[]>()
+  for (const match of matches) {
+    const existing = map.get(match.date) ?? []
+    existing.push(match)
+    map.set(match.date, existing)
+  }
+  for (const [, dayMatches] of map) {
+    dayMatches.sort((a, b) => a.time.localeCompare(b.time))
+  }
+  return map
+}
+
+export function parseMatchDate(dateStr: string): Date {
+  const [month, day, year] = dateStr.split("/").map(Number)
+  return new Date(year, month - 1, day)
+}
+
+export function formatMatchDateLong(dateStr: string, locale: string): string {
+  const date = parseMatchDate(dateStr)
+  return date.toLocaleDateString(locale === "pt-BR" ? "pt-BR" : "en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  })
+}
+
+export function formatMatchDateShort(dateStr: string, locale: string): string {
+  const date = parseMatchDate(dateStr)
+  return date.toLocaleDateString(locale === "pt-BR" ? "pt-BR" : "en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
   })
 }
 

@@ -74,6 +74,51 @@ export interface Team {
   code: string
   flag: string
   group: string
+  iso2?: string
+}
+
+export interface TeamMeta {
+  iso2: string
+  elo: number
+  fifaRank: number
+}
+
+export interface Stadium {
+  id: string
+  name: string
+  city: string
+  country: string
+}
+
+export interface MatchPrediction {
+  homeWin: number
+  draw: number
+  awayWin: number
+  homeElo: number
+  awayElo: number
+  eloDiff: number
+}
+
+export type FormResult = "W" | "D" | "L"
+
+export interface HeadToHeadMeeting {
+  date: string
+  homeTeam: string
+  awayTeam: string
+  homeScore: number
+  awayScore: number
+  summary: string
+}
+
+export interface HeadToHeadSummary {
+  meetings: number
+  lastMeeting: HeadToHeadMeeting | null
+}
+
+export interface TitleOddsEntry {
+  iso2: string
+  probability: number
+  delta: number
 }
 
 export interface GroupStanding {
@@ -121,6 +166,9 @@ export interface Match {
   matchday: string
   homeTeamLabel?: string
   awayTeamLabel?: string
+  stadiumId?: string
+  stadium?: Stadium | null
+  prediction?: MatchPrediction | null
 }
 
 export interface TournamentInfo {

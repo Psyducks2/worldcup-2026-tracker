@@ -1,0 +1,17 @@
+{
+  "updatedAt": "2026-06-21",
+  "teams": [
+    { "iso2": "es", "probability": 13.0, "delta": 0.7 },
+    { "iso2": "eng", "probability": 11.0, "delta": -0.7 },
+    { "iso2": "fr", "probability": 10.5, "delta": 0.2 },
+    { "iso2": "ar", "probability": 10.0, "delta": 0.0 },
+    { "iso2": "br", "probability": 9.5, "delta": -0.3 },
+    { "iso2": "de", "probability": 8.0, "delta": 0.5 },
+    { "iso2": "pt", "probability": 7.5, "delta": 0.1 },
+    { "iso2": "nl", "probability": 4.8, "delta": -0.7 },
+    { "iso2": "be", "probability": 4.2, "delta": 0.0 },
+    { "iso2": "co", "probability": 3.5, "delta": 0.2 },
+    { "iso2": "hr", "probability": 3.0, "delta": -0.1 },
+    { "iso2": "it", "probability": 2.8, "delta": 0.0 }
+  ]
+}

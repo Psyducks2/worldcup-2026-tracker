@@ -16,6 +16,15 @@ export interface Dictionary {
     dates: string
     teams: string
     matches: string
+    brand: string
+    updated: string
+  }
+  nav: {
+    matches: string
+    teams: string
+    groups: string
+    odds: string
+    analysis: string
   }
   tabs: {
     overview: string
@@ -54,6 +63,69 @@ export interface Dictionary {
     match: string
     vs: string
     projection: string
+    details: string
+    winProbability: string
+    draw: string
+    favored: string
+    fifaRank: string
+    today: string
+    matchesCount: string
+    backTo: string
+    eloModel: string
+    eloFootnote: string
+    ratingsAsOf: string
+    localKickoff: string
+    forYou: string
+    noPrediction: string
+  }
+  form: {
+    title: string
+    mostRecent: string
+    limited: string
+  }
+  h2h: {
+    title: string
+    firstMeeting: string
+    meetings: string
+  }
+  venue: {
+    title: string
+  }
+  odds: {
+    title: string
+    description: string
+    team: string
+    probability: string
+    change: string
+    movers: string
+    allOdds: string
+    updated: string
+  }
+  analysis: {
+    title: string
+    subtitle: string
+    aiGenerated: string
+    preview: string
+    review: string
+    watch: string
+    sources: string
+    noKey: string
+    matchDayPreview: string
+    matchDayReview: string
+    whatToWatch: string
+  }
+  teams: {
+    title: string
+    description: string
+    elo: string
+    fifaRank: string
+    group: string
+  }
+  disclaimer: {
+    unofficial: string
+    notLive: string
+    notBetting: string
+    aiLabel: string
   }
   groupTable: {
     team: string
